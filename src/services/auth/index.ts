@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { comparePassword } from "@/lib/utils/auth.utils";
-import { Employee } from "@prisma/client";
+import { User } from "@prisma/client";
 
 /**
  * Function to get an employee by their email and password
@@ -10,23 +10,19 @@ import { Employee } from "@prisma/client";
  * @param {string} password
  * @return {*}  {(Promise<Employee | null>)}
  */
-export async function getEmployeeByCredentials(
+export async function getUserByCredentials(
   email: string,
   password: string
-): Promise<Employee | null> {
-  const foundUser = await prisma.employee.findUnique({
+): Promise<User | null> {
+  const foundUser = await prisma.user.findUnique({
     where: {
       email,
     },
   });
 
-  console.log(foundUser);
-
   if (!foundUser) return null;
 
   const validated = await comparePassword(password, foundUser.password);
-
-  console.log(validated);
 
   if (!validated) return null;
 

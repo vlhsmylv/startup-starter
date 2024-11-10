@@ -4,7 +4,7 @@ import NextAuth from "next-auth";
 import { ZodError } from "zod";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signInSchema } from "@/lib/utils/zod.utils";
-import { getEmployeeByCredentials } from "@/services/auth";
+import { getUserByCredentials } from "./services/auth";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -25,7 +25,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           );
 
           // Retrieve user with provided credentials
-          const user = await getEmployeeByCredentials(email, password);
+          const user = await getUserByCredentials(email, password);
 
           // If user exists, return it; otherwise, return null
           if (user) {
