@@ -29,8 +29,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# env files (can opt-in for commiting if needed)
-.env*
+# env files (can opt-in for commiting if needed) 
+# replace with .env* if you want to ignore all .env
+.env
 
 # vercel
 .vercel
