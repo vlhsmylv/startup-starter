@@ -5,9 +5,8 @@ import { ZodError } from "zod";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signInSchema } from "@/lib/utils/zod.utils";
 import { getEmployeeByCredentials } from "@/services/auth";
-import { Employee } from "@prisma/client";
 
-export default NextAuth({
+export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     CredentialsProvider({
       credentials: {
