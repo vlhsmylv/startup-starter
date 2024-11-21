@@ -6,6 +6,6 @@ export default function useClientSession() {
 
   return {
     isAuth: !!session?.data?.user,
-    currentMe: session?.data?.user as User,
+    sessionMe: session?.data?.user as User,
   };
 }

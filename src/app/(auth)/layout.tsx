@@ -1,4 +1,4 @@
-import { isAuth } from "@/lib/actions/auth.action";
+import { isAuth } from "@/lib/actions/auth.actions";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 

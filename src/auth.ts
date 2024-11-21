@@ -1,5 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
+import GoogleProvider from "next-auth/providers/google";
 import { ZodError } from "zod";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signInSchema } from "@/lib/utils/zod.utils";
@@ -7,6 +8,10 @@ import { getUserByCredentials } from "@/services/auth"; // Adjust import path as
 
 export const authOptions: NextAuthOptions = {
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
     CredentialsProvider({
       credentials: {
         email: {
@@ -53,9 +58,10 @@ export const authOptions: NextAuthOptions = {
     },
   },
 
-  pages: {
-    signIn: "/login",
-  },
+  // If you have custom login page
+  // pages: {
+  //   signIn: "/login",
+  // },
 
   session: {
     strategy: "jwt",
