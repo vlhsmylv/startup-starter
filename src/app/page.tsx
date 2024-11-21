@@ -5,8 +5,8 @@ export default async function HomePage() {
         Welcome to Your Startup Template
       </h1>
       <p className="text-center text-lg mb-8">
-        You&apos;ve successfully cloned the Next.js starter template with Prisma,
-        TypeScript, and NextAuth.
+        You&apos;ve successfully cloned the Next.js starter template with
+        Prisma, TypeScript, and NextAuth.
       </p>
       <div className="text-center">
         <h2 className="text-xl font-semibold mb-2">Getting Started</h2>
@@ -15,7 +15,7 @@ export default async function HomePage() {
         </p>
         <pre className="bg-gray-100 p-4 rounded-md mb-6">
           <code>
-            npm install --legacy-peer-deps <br />
+            npm install <br />
             npm run dev
           </code>
         </pre>

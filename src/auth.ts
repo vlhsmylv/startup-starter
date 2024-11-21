@@ -1,12 +1,11 @@
-// pages/api/auth/[...nextauth].ts
-
-import NextAuth from "next-auth";
+import { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth/next";
 import { ZodError } from "zod";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signInSchema } from "@/lib/utils/zod.utils";
-import { getUserByCredentials } from "./services/auth";
+import { getUserByCredentials } from "@/services/auth"; // Adjust import path as necessary
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       credentials: {
@@ -19,23 +18,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
         try {
-          // Validate and parse credentials
-          const { email, password } = await signInSchema.parseAsync(
-            credentials
-          );
-
-          // Retrieve user with provided credentials
+          const { email, password } = await signInSchema.parseAsync(credentials);
           const user = await getUserByCredentials(email, password);
-
-          // If user exists, return it; otherwise, return null
-          if (user) {
-            return user;
-          } else {
-            return null;
-          }
+          return user || null;
         } catch (error: any) {
           if (error instanceof ZodError) {
-            // Validation error, return null to indicate invalid credentials
             return null;
           }
           throw new Error(
@@ -48,7 +35,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   callbacks: {
     async jwt({ token, user }: any) {
-      // Add custom user properties to JWT token
       if (user) {
         token.picture = user.picture;
         token.role = user.role;
@@ -57,7 +43,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     async session({ session, token }: any) {
-      // Attach the user's ID from the token to the session
       if (token) {
         session.user.id = token.sub as string;
         session.user.picture = token.picture as string;
@@ -74,11 +59,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   session: {
     strategy: "jwt",
-    maxAge: 7 * 24 * 60 * 60, // Set session max age to 7 days
-    updateAge: 15 * 60, // Update session age every 15 minutes
+    maxAge: 7 * 24 * 60 * 60,
+    updateAge: 15 * 60,
   },
 
   jwt: {
-    maxAge: 7 * 24 * 60 * 60, // JWT token expiration set to 7 days
+    maxAge: 7 * 24 * 60 * 60,
   },
-});
+};
+
+export default NextAuth(authOptions);
